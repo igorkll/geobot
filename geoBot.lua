@@ -287,7 +287,10 @@ local function checkTool(isHome)
                         return false
                     end
                     setFacing(1)
-                    return checkTool()
+                    
+                    robot.select(toolstol)
+                    inv.equip()
+                    return true
                 end
                 return false
             end
