@@ -368,7 +368,7 @@ local function start()
                 elseif offsetZ == 2 then
                     offsetZ = ifBlocksNotFoundMoveDist
                 end
-                if offsetX ~= 0 or offsetZ ~= 0 then
+                if math.floor(offsetX) ~= 0 or math.floor(offsetZ) ~= 0 then
                     break
                 end
             end
