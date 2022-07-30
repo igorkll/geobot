@@ -3,6 +3,8 @@
 local maxInventory = 0.8
 local minEnergy = 0.4
 local minDurability = 0.4
+local startMiningPos = -32 --все каординаты относительно базы робота
+local maxMiningPos = -20
 local toolnames = {"pickaxe"}
 
 --------------------------------boot
@@ -163,7 +165,7 @@ local function readMap()
                             math.floor((spy + y) + currentPosY),
                             math.floor((spz + z) + currentPosZ)
 
-                            if blockY < -20 and (currentPosX ~= blockX or currentPosY ~= blockY or currentPosZ ~= blockZ) then
+                            if blockY <= maxMiningPos and (currentPosX ~= blockX or currentPosY ~= blockY or currentPosZ ~= blockZ) then
                                 table.insert(map.x, blockX)
                                 table.insert(map.y, blockY)
                                 table.insert(map.z, blockZ)
@@ -325,7 +327,7 @@ end
 
 local function start()
     robot.setLightColor(0xFFFF00)
-    moveToPos(0, -32, 0)
+    moveToPos(0, startMiningPos, 0)
     map = readMap()
 
     while true do
