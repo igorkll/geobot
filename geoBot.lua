@@ -266,6 +266,11 @@ local function isTool(name)
     end
 end
 
+local function readDurability(info)
+    if not info.damage then return 1 end
+    return info.damage / info.maxDamage
+end
+
 local function checkTool(isHome)
     robot.setLightColor(0xAA66FF)
     local durability, str = robot.durability()
@@ -276,7 +281,7 @@ local function checkTool(isHome)
             local toolstol
             for i = 1, robot.inventorySize() do
                 local info = inv.getStackInInternalSlot(i)
-                if info and info.name and (not info.damage or (info.damage / info.maxDamage) >= minDurability) then
+                if info and info.name and readDurability(info) >= minDurability then
                     if isTool(info.name) then
                         toolstol = i
                         break
@@ -308,7 +313,7 @@ local function homeAction(isStart)
     
     for i = 1, robot.inventorySize() do
         local info = inv.getStackInInternalSlot(i)
-        if robot.count(i) > 0 and (not info or not info.name or isTool(info.name)) then
+        if robot.count(i) > 0 and (not info or not info.name or not isTool(info.name) or ) then
             robot.select(i)
             robot.drop(3, math.huge)
         end
