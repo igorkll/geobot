@@ -253,8 +253,6 @@ local function inventoryFullness()
     return value / robot.inventorySize()
 end
 
---------------------------------main
-
 local function isTool(name)
     for i = 1, #toolnames do
         if toolnames[i]:find("%:") then --is full mimecraft name
@@ -273,6 +271,8 @@ local function readDurability(info)
     if not info.damage then return 1 end
     return 1 - (info.damage / info.maxDamage)
 end
+
+--------------------------------main
 
 local function checkTool(isHome)
     local durability, str = robot.durability()
