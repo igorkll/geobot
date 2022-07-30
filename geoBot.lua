@@ -252,6 +252,20 @@ end
 
 --------------------------------main
 
+local function isTool(name)
+    for i = 1, #toolnames do
+        if toolnames[i]:find("%:") then --is full mimecraft name
+            if toolnames[i] == name then
+                return true
+            end
+        else
+            if unicode.sub(name, unicode.len(name) - (unicode.len(toolnames[i]) - 1), unicode.len(name)) == toolnames[i] then
+                return true
+            end
+        end
+    end
+end
+
 local function checkTool(isHome)
     robot.setLightColor(0xAA66FF)
     local durability, str = robot.durability()
@@ -263,20 +277,9 @@ local function checkTool(isHome)
             for i = 1, robot.inventorySize() do
                 local info = inv.getStackInInternalSlot(i)
                 if info and info.name and (not info.damage or (info.damage / info.maxDamage) >= minDurability) then
-                    local name = info.name
-
-                    for i = 1, #toolnames do
-                        if name:find("%:") then --is full mimecraft name
-                            if toolnames[i] == name then
-                                toolstol = i
-                                break
-                            end
-                        else
-                            if unicode.sub(name, unicode.len(name) - (unicode.len(toolnames[i]) - 1), unicode.len(name)) == toolnames[i] then
-                                toolstol = i
-                                break
-                            end
-                        end
+                    if isTool(info.name) then
+                        toolstol = i
+                        break
                     end
                 end
             end
@@ -287,10 +290,7 @@ local function checkTool(isHome)
                         return false
                     end
                     setFacing(1)
-                    
-                    robot.select(toolstol)
-                    inv.equip()
-                    return true
+                    return checkTool()
                 end
                 return false
             end
@@ -307,7 +307,8 @@ local function homeAction(isStart)
     setFacing(1)
     
     for i = 1, robot.inventorySize() do
-        if robot.count(i) > 0 then
+        local info = inv.getStackInInternalSlot(i)
+        if robot.count(i) > 0 and (not info or not info.name or isTool(info.name)) then
             robot.select(i)
             robot.drop(3, math.huge)
         end
