@@ -254,7 +254,7 @@ local function checkTool(isHome)
     local durability = robot.durability()
     if durability and durability < minDurability then
         if not inv then
-            break
+            return false
         else
             local toolstol
             for i = 1, robot.inventorySize() do
@@ -278,12 +278,14 @@ local function checkTool(isHome)
                 end
             end
             if not toolstol then
-                break
+                return false
             end
             robot.select(toolstol)
             inv.equip()
+            return true
         end
     end
+    return true
 end
 
 local function homeAction(isStart)
@@ -301,7 +303,9 @@ local function homeAction(isStart)
         interrupt()
     end
 
-    checkTool(true)
+    if not checkTool(true) then
+        computer.shutdown()
+    end
 
     if not isStart then
         if rs.getOutput(2) > 0 then
@@ -317,7 +321,7 @@ local function start()
 
     while true do
         if energy() < minEnergy or inventoryFullness() > maxInventory then break end
-        checkTool()
+        if not checkTool() then break end
 
         local x, y, z = findPoint()
         interrupt()
