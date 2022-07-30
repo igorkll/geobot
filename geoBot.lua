@@ -340,6 +340,7 @@ end
 
 local function start()
     robot.setLightColor(0xFFFF00)
+    if not checkTool() then return end
     moveToPos(0, startMiningPos, 0)
     map = readMap()
 
@@ -351,17 +352,23 @@ local function start()
         interrupt()
         if not x then
             robot.setLightColor(0xFF00FF)
-            local offsetX = math.random(0, 2)
-            local offsetZ = math.random(0, 2)
-            if offsetX == 1 then
-                offsetX = -ifBlocksNotFoundMoveDist
-            elseif offsetX == 2 then
-                offsetX = ifBlocksNotFoundMoveDist
-            end
-            if offsetZ == 1 then
-                offsetZ = -ifBlocksNotFoundMoveDist
-            elseif offsetZ == 2 then
-                offsetZ = ifBlocksNotFoundMoveDist
+            local offsetX, offsetZ
+            while true do
+                offsetX = math.random(0, 2)
+                offsetZ = math.random(0, 2)
+                if offsetX == 1 then
+                    offsetX = -ifBlocksNotFoundMoveDist
+                elseif offsetX == 2 then
+                    offsetX = ifBlocksNotFoundMoveDist
+                end
+                if offsetZ == 1 then
+                    offsetZ = -ifBlocksNotFoundMoveDist
+                elseif offsetZ == 2 then
+                    offsetZ = ifBlocksNotFoundMoveDist
+                end
+                if offsetX ~= 0 or offsetZ ~= 0 then
+                    break
+                end
             end
             deltaMoveToPos(offsetX, 0, offsetZ)
         else
