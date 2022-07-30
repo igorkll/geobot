@@ -6,6 +6,7 @@ local minDurability = 0.4
 local startMiningPos = -32 --все каординаты относительно базы робота
 local maxMiningPos = -20
 local toolnames = {"pickaxe"}
+local port = 573
 
 --------------------------------boot
 
@@ -21,9 +22,9 @@ local rs = component.proxy(component.list("redstone")() or "")
 local inv = component.proxy(component.list("inventory_controller")() or "")
 
 if modem then
-    modem.open(573)
+    modem.open(port)
     if modem.isWireless() then modem.setStrength(16) end
-    modem.broadcast(573)
+    modem.broadcast(port, "robotStarted")
     if modem.isWireless() then modem.setStrength(math.huge) end
 end
 
