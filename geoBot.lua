@@ -277,14 +277,15 @@ end
 local function checkTool(isHome)
     local durability, str = robot.durability()
     if (durability and durability < minDurability) or (not durability and str == "no tool equipped") then
+        robot.setLightColor(0x0000FF)
         if not inv then
             return false
         else
             local toolstol
             for i = 1, robot.inventorySize() do
                 local info = inv.getStackInInternalSlot(i)
-                if info and info.name and readDurability(info) >= minDurability then
-                    if isTool(info.name) then
+                if info and info.name and isTool(info.name) then
+                    if readDurability(info) >= minDurability then
                         toolstol = i
                         break
                     end
@@ -294,6 +295,7 @@ local function checkTool(isHome)
                 if isHome then
                     setFacing(4)
                     if not robot.suck(3) then
+                        setFacing(1)
                         return false
                     end
                     setFacing(1)
