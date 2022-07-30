@@ -193,7 +193,7 @@ end
 
 local function findPoint(isRecursion)
     robot.setLightColor(0xFF6600)
-    local x, y, z, index
+    local x, y, z
 
     for i = 1, #map.v do
         if map.v[i] > 2.5 then
@@ -203,7 +203,6 @@ local function findPoint(isRecursion)
                 x = map.x[i]
                 y = map.y[i]
                 z = map.z[i]
-                index = i
             end
         end
     end
