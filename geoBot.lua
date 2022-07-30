@@ -251,6 +251,7 @@ end
 --------------------------------main
 
 local function checkTool(isHome)
+    robot.setLightColor(0xAA66FF)
     local durability = robot.durability()
     if durability and durability < minDurability then
         if not inv then
@@ -283,6 +284,8 @@ local function checkTool(isHome)
                     if not robot.suck(3) then
                         return false
                     end
+                    setFacing(1)
+                    return checkTool()
                 end
                 return false
             end
