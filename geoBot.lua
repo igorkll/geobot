@@ -288,7 +288,7 @@ local function start()
                 local toolstol
                 for i = 1, robot.inventorySize() do
                     local info = inv.getStackInInternalSlot(i)
-                    if info and info.name then
+                    if info and info.name and (not info.damage or (info.damage / info.maxDamage) >= minDurability) then
                         local name = info.name
 
                         for i = 1, #toolnames do
