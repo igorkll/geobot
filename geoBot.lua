@@ -6,6 +6,7 @@ local minEnergy = 0.4
 local minDurability = 0.4
 local startMiningPos = -32 --все каординаты относительно базы робота
 local maxMiningPos = -20
+local ifBlocksNotFoundMoveDist = 20
 local toolnames = {"pickaxe"}
 local port = 573
 
@@ -351,14 +352,14 @@ local function start()
             local offsetX = math.random(0, 2)
             local offsetZ = math.random(0, 2)
             if offsetX == 1 then
-                offsetX = -20
+                offsetX = -ifBlocksNotFoundMoveDist
             elseif offsetX == 2 then
-                offsetX = 20
+                offsetX = ifBlocksNotFoundMoveDist
             end
             if offsetZ == 1 then
-                offsetZ = -20
+                offsetZ = -ifBlocksNotFoundMoveDist
             elseif offsetZ == 2 then
-                offsetZ = 20
+                offsetZ = ifBlocksNotFoundMoveDist
             end
             deltaMoveToPos(offsetX, 0, offsetZ)
         else
