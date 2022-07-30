@@ -313,7 +313,7 @@ local function homeAction(isStart)
     
     for i = 1, robot.inventorySize() do
         local info = inv.getStackInInternalSlot(i)
-        if robot.count(i) > 0 and (not info or not info.name or not isTool(info.name) or ) then
+        if robot.count(i) > 0 and (not info or not info.name or not isTool(info.name) or readDurability(info) < minDurability) then
             robot.select(i)
             robot.drop(3, math.huge)
         end
