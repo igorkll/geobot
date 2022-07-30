@@ -250,6 +250,42 @@ end
 
 --------------------------------main
 
+local function checkTool(isHome)
+    local durability = robot.durability()
+    if durability and durability < minDurability then
+        if not inv then
+            break
+        else
+            local toolstol
+            for i = 1, robot.inventorySize() do
+                local info = inv.getStackInInternalSlot(i)
+                if info and info.name and (not info.damage or (info.damage / info.maxDamage) >= minDurability) then
+                    local name = info.name
+
+                    for i = 1, #toolnames do
+                        if name:find("%:") then --is full mimecraft name
+                            if toolnames[i] == name then
+                                toolstol = i
+                                break
+                            end
+                        else
+                            if unicode.sub(name, unicode.len(name) - (unicode.len(toolnames[i]) - 1), unicode.len(name)) == toolnames[i] then
+                                toolstol = i
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+            if not toolstol then
+                break
+            end
+            robot.select(toolstol)
+            inv.equip()
+        end
+    end
+end
+
 local function homeAction(isStart)
     robot.setLightColor(0x00FFFF)
     setFacing(1)
@@ -264,7 +300,9 @@ local function homeAction(isStart)
     while energy() < 0.9 do
         interrupt()
     end
-    
+
+    checkTool(true)
+
     if not isStart then
         if rs.getOutput(2) > 0 then
             computer.shutdown()
@@ -279,40 +317,7 @@ local function start()
 
     while true do
         if energy() < minEnergy or inventoryFullness() > maxInventory then break end
-
-        local durability = robot.durability()
-        if durability and durability < minDurability then
-            if not inv then
-                break
-            else
-                local toolstol
-                for i = 1, robot.inventorySize() do
-                    local info = inv.getStackInInternalSlot(i)
-                    if info and info.name and (not info.damage or (info.damage / info.maxDamage) >= minDurability) then
-                        local name = info.name
-
-                        for i = 1, #toolnames do
-                            if name:find("%:") then --is full mimecraft name
-                                if toolnames[i] == name then
-                                    toolstol = i
-                                    break
-                                end
-                            else
-                                if unicode.sub(name, unicode.len(name) - (unicode.len(toolnames[i]) - 1), unicode.len(name)) == toolnames[i] then
-                                    toolstol = i
-                                    break
-                                end
-                            end
-                        end
-                    end
-                end
-                if not toolstol then
-                    break
-                end
-                robot.select(toolstol)
-                inv.equip()
-            end
-        end
+        checkTool()
 
         local x, y, z = findPoint()
         interrupt()
