@@ -271,7 +271,7 @@ end
 
 local function readDurability(info)
     if not info.damage then return 1 end
-    return info.damage / info.maxDamage
+    return 1 - (info.damage / info.maxDamage)
 end
 
 local function checkTool(isHome)
