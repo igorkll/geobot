@@ -1,5 +1,6 @@
 --------------------------------settings
 
+--данный код можно запускать как через bios так и записав на сам eeprom
 local maxInventory = 0.8
 local minEnergy = 0.4
 local minDurability = 0.4
