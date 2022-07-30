@@ -214,9 +214,8 @@ local function findPoint(isRecursion)
     table.remove(map.v, index)
     ]]
 
-    if not x then
+    if not x and not isRecursion then
         interrupt()
-        if isRecursion then return nil, nil, nil end
         map = readMap()
         return findPoint(true)
     end
@@ -227,7 +226,7 @@ end
 local function moveToHome()
     robot.setLightColor(0x00FF00)
     local y = currentPosY
-    if y <= 4 and y >= -4 then
+    if y <= 4 and y >= -4 then --чтоб ненароком не сломать станцию
         if y >= 0 then
             y = 4
         else
