@@ -21,10 +21,10 @@ local rs = component.proxy(component.list("redstone")() or "")
 local inv = component.proxy(component.list("inventory_controller")() or "")
 
 if modem then
-    if modem.isWireless() then
-        modem.setStrength(math.huge)
-    end
     modem.open(573)
+    if modem.isWireless() then modem.setStrength(16) end
+    modem.broadcast(573)
+    if modem.isWireless() then modem.setStrength(math.huge) end
 end
 
 if rs then
