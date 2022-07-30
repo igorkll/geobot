@@ -272,7 +272,6 @@ local function readDurability(info)
 end
 
 local function checkTool(isHome)
-    robot.setLightColor(0xAA66FF)
     local durability, str = robot.durability()
     if (durability and durability < minDurability) or (not durability and str == "no tool equipped") then
         if not inv then
@@ -328,7 +327,7 @@ local function homeAction(isStart)
     end
 
     if not isStart then
-        if rs.getOutput(2) > 0 then
+        if rs.getInput(2) > 0 then
             computer.shutdown()
         end
     end
