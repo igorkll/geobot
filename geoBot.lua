@@ -278,6 +278,9 @@ local function checkTool(isHome)
                 end
             end
             if not toolstol then
+                if isHome then
+                    
+                end
                 return false
             end
             robot.select(toolstol)
