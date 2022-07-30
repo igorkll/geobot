@@ -252,8 +252,8 @@ end
 
 local function checkTool(isHome)
     robot.setLightColor(0xAA66FF)
-    local durability = robot.durability()
-    if durability and durability < minDurability then
+    local durability, str = robot.durability()
+    if (durability and durability < minDurability) or (not durability and str == "no tool equipped") then
         if not inv then
             return false
         else
