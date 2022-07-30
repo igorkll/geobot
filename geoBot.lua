@@ -247,8 +247,7 @@ local function inventoryFullness()
     local value = 0
 
     for i = 1, robot.inventorySize() do
-        local v = robot.count(i) / robot.space(i)
-        if v == math.huge then v = 1 end
+        local v = robot.count(i) / (robot.count(i) + robot.space(i))
         value = value + v
     end
 
@@ -347,7 +346,8 @@ local function start()
     map = readMap()
 
     while true do
-        if energy() < minEnergy or inventoryFullness() > maxInventory then break end
+        if energy() < minEnergy then break end
+        if inventoryFullness() > maxInventory then break end
         if not checkTool() then break end
 
         local x, y, z = findPoint()
