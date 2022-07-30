@@ -279,7 +279,10 @@ local function checkTool(isHome)
             end
             if not toolstol then
                 if isHome then
-                    
+                    setFacing(4)
+                    if not robot.suck(3) then
+                        return false
+                    end
                 end
                 return false
             end
