@@ -357,13 +357,15 @@ local function start()
     end
 end
 
-while true do
-    interrupt()
-    homeAction(true)
+homeAction(true)
 
+while true do
     interrupt()
     start()
 
     interrupt()
     moveToHome()
+
+    interrupt()
+    homeAction()
 end
