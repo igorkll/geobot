@@ -189,7 +189,24 @@ local function integradeMap(lmap)
     for lmapIndex = 1, #lmap.v do
         local currentMapIndex
         for mapIndex = 1, #map.v do
-            
+            if
+            map.x[mapIndex] == lmap.x[lmapIndex] and
+            map.y[mapIndex] == lmap.y[lmapIndex] and
+            map.z[mapIndex] == lmap.z[lmapIndex] then
+                currentMapIndex = mapIndex
+                break
+            end
+        end
+        if currentMapIndex then
+            map.x[currentMapIndex] = lmap.x[lmapIndex]
+            map.y[currentMapIndex] = lmap.y[lmapIndex]
+            map.z[currentMapIndex] = lmap.z[lmapIndex]
+            map.v[currentMapIndex] = lmap.v[lmapIndex]
+        else
+            table.insert(map.x, lmap.x[lmapIndex])
+            table.insert(map.y, lmap.y[lmapIndex])
+            table.insert(map.z, lmap.z[lmapIndex])
+            table.insert(map.v, lmap.v[lmapIndex])
         end
     end
 end
