@@ -149,9 +149,9 @@ end
 --------------------------------geolyzer
 
 local blockSize = 3
-local function readMap()
+local function readMap(size)
     robot.setLightColor(0xFF0000)
-    local size = mapCubeSize
+    local size = size or mapCubeSize
 
     local map = {x = {}, y = {}, z = {}, v = {}}
     for bx = -size, size do
@@ -210,6 +210,7 @@ local function integradeMap(lmap)
         end
     end
 end
+
 --------------------------------logic
 
 local function mathDist(x, y, z, x2, y2, z2)
