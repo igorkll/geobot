@@ -271,8 +271,9 @@ local function inventoryFullness()
     local value = 0
 
     for i = 1, robot.inventorySize() do
-        local v = robot.count(i) / (robot.count(i) + robot.space(i))
-        value = value + v
+        if robot.count(i) > 0 then
+            value = value + 1
+        end
     end
 
     return value / robot.inventorySize()
