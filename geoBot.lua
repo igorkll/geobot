@@ -9,6 +9,7 @@ local maxMiningPos = -15
 local ifBlocksNotFoundMoveDist = 20
 local toolnames = {"pickaxe"}
 local port = 573
+local mapCubeSize = 2
 
 --------------------------------boot
 
@@ -59,6 +60,7 @@ end
 
 local function move(side)
     while true do
+        interrupt()
         if robot.detect(side) then
             robot.swing(side)
         else
@@ -66,7 +68,6 @@ local function move(side)
                 break
             end
         end
-        interrupt()
     end
     if side == 3 then
         if currentFacing == 1 then
@@ -150,12 +151,12 @@ end
 local blockSize = 3
 local function readMap()
     robot.setLightColor(0xFF0000)
+    local size = mapCubeSize
 
     local map = {x = {}, y = {}, z = {}, v = {}}
-    
-    for bx = -2, 2 do
-        for by = -2, 2 do
-            for bz = -2, 2 do
+    for bx = -size, size do
+        for by = -size, size do
+            for bz = -size, size do
                 local spx, spy, spz = (bx * blockSize) + 1, (by * blockSize) + 1, (bz * blockSize) + 1
 
                 local rawMap = assert(geo.scan(spx, spz, spy, blockSize, blockSize, blockSize))
@@ -181,10 +182,17 @@ local function readMap()
             end
         end
     end
-
     return map
 end
 
+local function integradeMap(lmap)
+    for lmapIndex = 1, #lmap.v do
+        local currentMapIndex
+        for mapIndex = 1, #map.v do
+            
+        end
+    end
+end
 --------------------------------logic
 
 local function mathDist(x, y, z, x2, y2, z2)
@@ -315,7 +323,7 @@ local function homeAction(isStart)
     setFacing(1)
     
     for i = 1, robot.inventorySize() do
-        local info = inv.getStackInInternalSlot(i)
+        local info = inv and inv.getStackInInternalSlot(i)
         if robot.count(i) > 0 and (not info or not info.name or not isTool(info.name) or readDurability(info) < minDurability) then
             robot.select(i)
             robot.drop(3, math.huge)
