@@ -188,9 +188,9 @@ local function integradeMap(lmap)
         local currentMapIndex
         for mapIndex = 1, #map.v do
             if
-            map.x[mapIndex] == lmap.x[lmapIndex] and
-            map.y[mapIndex] == lmap.y[lmapIndex] and
-            map.z[mapIndex] == lmap.z[lmapIndex] then
+            math.floor(map.x[mapIndex]) == math.floor(lmap.x[lmapIndex]) and
+            math.floor(map.y[mapIndex]) == math.floor(lmap.y[lmapIndex]) and
+            math.floor(map.z[mapIndex]) == math.floor(lmap.z[lmapIndex]) then
                 currentMapIndex = mapIndex
                 break
             end
