@@ -37,11 +37,9 @@ end
 
 local oldInterruptTime = -math.huge
 local function interrupt()
-    if computer.uptime() - oldInterruptTime > 4 then
+    if computer.uptime() - oldInterruptTime > 2 then
         oldInterruptTime = computer.uptime()
-        for i = 1, 10 do
-            computer.pullSignal(0.1)
-        end
+        for i = 1, 10 do computer.pullSignal(0) end
     end
 end
 
