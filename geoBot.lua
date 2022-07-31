@@ -401,6 +401,7 @@ local function start()
         else
             robot.setLightColor(0xFFFF00)
             moveToPos(x, y, z)
+            integradeMap(readMap(0))
         end
         interrupt()
     end
